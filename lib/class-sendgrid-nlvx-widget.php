@@ -156,35 +156,38 @@ class SendGrid_NLVX_Widget extends WP_Widget {
       // Theme style
       echo $args['before_widget'];
 
-      if ( ! empty( $title ) ) {
-        echo $args['before_title'] . $title . $args['after_title'];
+      if (!empty($title)) {
+          echo $args['before_title'] . $title . $args['after_title'];
       }
 
-      // Form was submitted
-      if ( isset( $_POST['sendgrid_mc_email'] ) ) {
-        $process_form_reponse = $this->process_subscription();
-        if ( self::SUCCESS_EMAIL_SEND == $process_form_reponse ) {
-          echo '<p class="sendgrid_widget_text"> ' . $success_text . ' </p>';
-        } elseif ( self::INVALID_EMAIL_ERROR == $process_form_reponse ) {
-          echo '<p class="sendgrid_widget_text"> ' . $error_email_text . ' </p>';
-          $this->display_form();
-        } else {
-          echo '<p class="sendgrid_widget_text"> ' . $error_text . ' </p>';
-          $this->display_form();
-        }
+      // Form was submitted & has valid nonce
+      if (isset($_POST['sendgrid_mc_email'])){
+          if(!wp_verify_nonce($_REQUEST['_mc_subscribe_nonce'], '#sendgrid_mc_email_subscribe')) {
+           } else { die('Something went wrong'); }
+
+          $process_form_reponse = $this->process_subscription();
+
+          if (self::SUCCESS_EMAIL_SEND == $process_form_reponse) {
+              echo '<p class="sendgrid_widget_text"> ' . $success_text . ' </p>';
+          } elseif (self::INVALID_EMAIL_ERROR == $process_form_reponse) {
+              echo '<p class="sendgrid_widget_text"> ' . $error_email_text . ' </p>';
+              $this->display_form();
+          } else {
+              echo '<p class="sendgrid_widget_text"> ' . $error_text . ' </p>';
+              $this->display_form();
+          }
       } else {
-        // Display form
-        if ( ! empty( $text ) ) {
-          echo '<p class="sendgrid_widget_text">' . $text . '</p>';
-        }
+          // Display form
+          if (!empty($text)) {
+              echo '<p class="sendgrid_widget_text">' . $text . '</p>';
+          }
 
-        $this->display_form();
+          $this->display_form();
       }
-
       // Theme style
       echo $args['after_widget'];
-    }
 
+    }
     /**
      * Method that processes the subscription params
      *
@@ -284,7 +287,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
             $html .= '<form method="post" id="sendgrid_mc_email_form" class="mc_email_form" action="#sendgrid_mc_email_subscribe" style="padding-top: 10px;">';
         }
 
-
+        $html .= wp_nonce_field( '#sendgrid_mc_email_subscribe', '_mc_subscribe_nonce', true, false );
 
       if ( 'true' == Sendgrid_Tools::get_mc_opt_incl_fname_lname() ) {
         if ( 'true' == Sendgrid_Tools::get_mc_opt_req_fname_lname() ) {
@@ -296,9 +299,9 @@ class SendGrid_NLVX_Widget extends WP_Widget {
         if ($output_clean_html) {
             $html .= '<fieldset>'
                 . '  <label for="sendgrid_mc_first_name">' . $first_name_label . '</label>'
-                . '  <input name="sendgrid_mc_first_name" type="text" value="' . $require_fname_lname . '" />'
+                . '  <input name="sendgrid_mc_first_name" type="text" placeholder="' . $require_fname_lname . '" />'
                 . '  <label for="sendgrid_mc_last_name">' . $last_name_label . '</label>'
-                . '  <input name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
+                . '  <input name="sendgrid_mc_last_name" type="text" placeholder="' . $require_fname_lname . '"/>'
                 . '</fieldset>';
 
         } else {
@@ -307,7 +310,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
                 . '    <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . '</label>'
                 . '  </div>'
                 . '  <div class="sendgrid_mc_input_div">'
-                . '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" value=""' . $require_fname_lname . ' />'
+                . '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" placeholder="' . $require_fname_lname . '" />'
                 . '  </div>'
                 . '</div>'
                 . '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
@@ -315,7 +318,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
                 . '    <label for="sendgrid_mc_last_name" class="sendgrid_mc_label sendgrid_mc_label_last_name">' . $last_name_label . '</label>'
                 . '  </div>'
                 . '  <div class="sendgrid_mc_input_div">'
-                . '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
+                . '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" placeholder="' . $require_fname_lname . '"/>'
                 . '  </div>'
                 . '</div>';
         }
@@ -325,7 +328,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
       if ($output_clean_html) {
         $html .= '<fieldset>'
         . '  <label for="sendgrid_mc_email">' . $email_label . '<sup>*</sup></label>'
-        . '  <input name="sendgrid_mc_email" type="text" value="" required/>'
+        . '  <input name="sendgrid_mc_email" type="text" placeholder="(' . $require_fname_lname . ') you@example.com" required/>'
         . '</fieldset>'
         . '<fieldset>'
         . '  <input type="submit" value="' . $subscribe_label . '" />'
@@ -338,7 +341,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
           . '    <label for="sendgrid_mc_email" class="sendgrid_mc_label sendgrid_mc_label_email">' . $email_label . '<sup>*</sup></label>'
           . '  </div>'
           . '  <div class="sendgrid_mc_input_div">'
-          . '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="" required/>'
+          . '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="(' . $require_fname_lname . ') you@example.com" required/>'
           . '  </div>'
           . '</div>'
           . '<div class="sendgrid_mc_button_div">'
