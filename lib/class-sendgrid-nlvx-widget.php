@@ -316,6 +316,6 @@ class SendGrid_NLVX_Widget extends WP_Widget {
       . '</div>'
       . '</form>';
 
-      echo $html;
+      echo apply_filters('mc_subscription_form_html', $html);
     }
 }
