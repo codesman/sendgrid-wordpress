@@ -287,7 +287,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
             $html .= '<form method="post" id="sendgrid_mc_email_form" class="mc_email_form" action="#sendgrid_mc_email_subscribe" style="padding-top: 10px;">';
         }
 
-        $html .= wp_nonce_field( '#sendgrid_mc_email_subscribe', '_mc_subscribe_nonce', true, false );
+        $html .= wp_nonce_field( '#sendgrid_mc_email_subscribe', '_mc_subscribe_nonce', false, false );
 
       if ( 'true' == Sendgrid_Tools::get_mc_opt_incl_fname_lname() ) {
         if ( 'true' == Sendgrid_Tools::get_mc_opt_req_fname_lname() ) {
