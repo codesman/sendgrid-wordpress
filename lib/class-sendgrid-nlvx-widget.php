@@ -163,7 +163,8 @@ class SendGrid_NLVX_Widget extends WP_Widget {
       // Form was submitted & has valid nonce
       if (isset($_POST['sendgrid_mc_email'])){
           if(!wp_verify_nonce($_REQUEST['_mc_subscribe_nonce'], '#sendgrid_mc_email_subscribe')) {
-           } else { die('Something went wrong'); }
+            die('Something went wrong');
+          }
 
           $process_form_reponse = $this->process_subscription();
 
