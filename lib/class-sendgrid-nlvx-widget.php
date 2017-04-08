@@ -191,7 +191,7 @@ class SendGrid_NLVX_Widget extends WP_Widget {
     /**
      * Method that processes the subscription params
      *
-     * @return  void
+     * @return  string
      */
     private function process_subscription() {
       $email_split = explode( "@", htmlspecialchars($_POST['sendgrid_mc_email'], ENT_QUOTES, 'UTF-8') );
