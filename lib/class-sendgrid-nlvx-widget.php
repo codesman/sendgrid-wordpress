@@ -297,30 +297,32 @@ class SendGrid_NLVX_Widget extends WP_Widget {
         }
 
         if ($output_clean_html) {
-            $html .= '<fieldset>'
-                . '  <label for="sendgrid_mc_first_name">' . $first_name_label . '</label>'
-                . '  <input name="sendgrid_mc_first_name" type="text" placeholder="' . $require_fname_lname . '" />'
-                . '  <label for="sendgrid_mc_last_name">' . $last_name_label . '</label>'
-                . '  <input name="sendgrid_mc_last_name" type="text" placeholder="' . $require_fname_lname . '"/>'
-                . '</fieldset>';
+            $html .=
+                '<fieldset>' .
+                '  <label for="sendgrid_mc_first_name">' . $first_name_label . '</label>' .
+                '  <input name="sendgrid_mc_first_name" type="text" value="' . $require_fname_lname . '" />' .
+                '  <label for="sendgrid_mc_last_name">' . $last_name_label . '</label>' .
+                '  <input name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>' .
+                '</fieldset>';
 
         } else {
-            $html .= '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-                . '  <div class="sendgrid_mc_label_div">'
-                . '    <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . '</label>'
-                . '  </div>'
-                . '  <div class="sendgrid_mc_input_div">'
-                . '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" placeholder="' . $require_fname_lname . '" />'
-                . '  </div>'
-                . '</div>'
-                . '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-                . '  <div class="sendgrid_mc_label_div">'
-                . '    <label for="sendgrid_mc_last_name" class="sendgrid_mc_label sendgrid_mc_label_last_name">' . $last_name_label . '</label>'
-                . '  </div>'
-                . '  <div class="sendgrid_mc_input_div">'
-                . '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" placeholder="' . $require_fname_lname . '"/>'
-                . '  </div>'
-                . '</div>';
+            $html .=
+                '<div class="sendgrid_mc_fields" style="' . $input_padding . '">' .
+                '  <div class="sendgrid_mc_label_div">' .
+                '    <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . '</label>' .
+                '  </div>' .
+                '  <div class="sendgrid_mc_input_div">' .
+                '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" value=""' . $require_fname_lname . ' />' .
+                '  </div>' .
+                '</div>' .
+                '<div class="sendgrid_mc_fields" style="' . $input_padding . '">' .
+                '  <div class="sendgrid_mc_label_div">' .
+                '    <label for="sendgrid_mc_last_name" class="sendgrid_mc_label sendgrid_mc_label_last_name">' . $last_name_label . '</label>' .
+                '  </div>' .
+                '  <div class="sendgrid_mc_input_div">' .
+                '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>' .
+                '  </div>' .
+                '</div>';
         }
 
       }
