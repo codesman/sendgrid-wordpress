@@ -275,7 +275,16 @@ class SendGrid_NLVX_Widget extends WP_Widget {
 
       $require_fname_lname = '';
 
-      $html = '<form method="post" id="sendgrid_mc_email_form" class="mc_email_form" action="#sendgrid_mc_email_subscribe" style="padding-top: 10px;">';
+      $clean_html = true; // Temporary var until we add the option in admin.
+
+        $html = '';
+        if ($clean_html){
+            $html .= '<form method="post" class="mc_email_form" action="#sendgrid_mc_email_subscribe">';
+        } else {
+            $html .= '<form method="post" id="sendgrid_mc_email_form" class="mc_email_form" action="#sendgrid_mc_email_subscribe" style="padding-top: 10px;">';
+        }
+
+
 
       if ( 'true' == Sendgrid_Tools::get_mc_opt_incl_fname_lname() ) {
         if ( 'true' == Sendgrid_Tools::get_mc_opt_req_fname_lname() ) {
@@ -284,38 +293,67 @@ class SendGrid_NLVX_Widget extends WP_Widget {
           $last_name_label .= "<sup>*</sup>";
         }
 
-        $html .= '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-        . '  <div class="sendgrid_mc_label_div">'
-        . '    <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . ' : </label>'
-        . '  </div>'
-        . '  <div class="sendgrid_mc_input_div">'
-        . '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" value=""' . $require_fname_lname . ' />'
-        . '  </div>'
-        . '</div>'
-        . '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-        . '  <div class="sendgrid_mc_label_div">'
-        . '    <label for="sendgrid_mc_last_name" class="sendgrid_mc_label sendgrid_mc_label_last_name">' . $last_name_label . ' : </label>'
-        . '  </div>'
-        . '  <div class="sendgrid_mc_input_div">'
-        . '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
-        . '  </div>'
-        . '</div>';
+        if ($clean_html) {
+            $html .= '<fieldset>'
+                . '  <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . ' : </label>'
+                . '</fieldset>'
+                . '<fieldset>'
+                . '  <input name="sendgrid_mc_first_name" type="text" value="' . $require_fname_lname . '" />'
+                . '</fieldset>'
+                . '<fieldset>'
+                . '  <label for="sendgrid_mc_last_name">' . $last_name_label . ' : </label>'
+                . '</fieldset>'
+                . '<fieldset>'
+                . '  <input name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
+                . '</fieldset>';
+
+        } else {
+            $html .= '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
+                . '  <div class="sendgrid_mc_label_div">'
+                . '    <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . ' : </label>'
+                . '  </div>'
+                . '  <div class="sendgrid_mc_input_div">'
+                . '    <input class="sendgrid_mc_input sendgrid_mc_input_first_name" id="sendgrid_mc_first_name" name="sendgrid_mc_first_name" type="text" value=""' . $require_fname_lname . ' />'
+                . '  </div>'
+                . '</div>'
+                . '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
+                . '  <div class="sendgrid_mc_label_div">'
+                . '    <label for="sendgrid_mc_last_name" class="sendgrid_mc_label sendgrid_mc_label_last_name">' . $last_name_label . ' : </label>'
+                . '  </div>'
+                . '  <div class="sendgrid_mc_input_div">'
+                . '    <input class="sendgrid_mc_input sendgrid_mc_input_last_name" id="sendgrid_mc_last_name" name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
+                . '  </div>'
+                . '</div>';
+        }
+
       }
 
-      $html .=  '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-      . '  <div class="sendgrid_mc_label_div">'
-      . '    <label for="sendgrid_mc_email" class="sendgrid_mc_label sendgrid_mc_label_email">' . $email_label . '<sup>*</sup> :</label>'
-      . '  </div>'
-      . '  <div class="sendgrid_mc_input_div">'
-      . '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="" required/>'
-      . '  </div>'
-      . '</div>'
+      if ($clean_html) {
+        $html .= '<fieldset>'
+        . '  <label for="sendgrid_mc_email">' . $email_label . '<sup>*</sup> :</label>'
+        . '</fieldset>'
+        . '<fieldset>'
+        . '    <input name="sendgrid_mc_email" type="text" value="" required/>'
+        . '</fieldset>'
+        . '<fieldset>'
+        . '  <input type="submit" value="' . $subscribe_label . '" />'
+        . '</fieldset>'
+        . '</form>';
 
-      . '<div class="sendgrid_mc_button_div">'
-      . '  <input style="' . $button_padding . '" class="sendgrid_mc_button" type="submit" id="sendgrid_mc_email_submit" value="' . $subscribe_label . '" />'
-      . '</div>'
-      . '</form>';
-
+      } else {
+          $html .= '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
+          . '  <div class="sendgrid_mc_label_div">'
+          . '    <label for="sendgrid_mc_email" class="sendgrid_mc_label sendgrid_mc_label_email">' . $email_label . '<sup>*</sup> :</label>'
+          . '  </div>'
+          . '  <div class="sendgrid_mc_input_div">'
+          . '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="" required/>'
+          . '  </div>'
+          . '</div>'
+          . '<div class="sendgrid_mc_button_div">'
+          . '  <input style="' . $button_padding . '" class="sendgrid_mc_button" type="submit" id="sendgrid_mc_email_submit" value="' . $subscribe_label . '" />'
+          . '</div>'
+          . '</form>';
+      }
       echo apply_filters('mc_subscription_form_html', $html);
     }
 }
