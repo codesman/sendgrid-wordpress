@@ -325,28 +325,30 @@ class SendGrid_NLVX_Widget extends WP_Widget {
       }
 
       if ($output_clean_html) {
-        $html .= '<fieldset>'
-        . '  <label for="sendgrid_mc_email">' . $email_label . '<sup>*</sup></label>'
-        . '  <input name="sendgrid_mc_email" type="text" value="" required/>'
-        . '</fieldset>'
-        . '<fieldset>'
-        . '  <input type="submit" value="' . $subscribe_label . '" />'
-        . '</fieldset>'
-        . '</form>';
+        $html .=
+            '<fieldset>' .
+            '  <label for="sendgrid_mc_email">' . $email_label . '<sup>*</sup></label>' .
+            '  <input name="sendgrid_mc_email" type="text" value="" required/>' .
+            '</fieldset>' .
+            '<fieldset>' .
+            '  <input type="submit" value="' . $subscribe_label . '" />' .
+            '</fieldset>' .
+            '</form>';
 
       } else {
-          $html .= '<div class="sendgrid_mc_fields" style="' . $input_padding . '">'
-          . '  <div class="sendgrid_mc_label_div">'
-          . '    <label for="sendgrid_mc_email" class="sendgrid_mc_label sendgrid_mc_label_email">' . $email_label . '<sup>*</sup></label>'
-          . '  </div>'
-          . '  <div class="sendgrid_mc_input_div">'
-          . '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="" required/>'
-          . '  </div>'
-          . '</div>'
-          . '<div class="sendgrid_mc_button_div">'
-          . '  <input style="' . $button_padding . '" class="sendgrid_mc_button" type="submit" id="sendgrid_mc_email_submit" value="' . $subscribe_label . '" />'
-          . '</div>'
-          . '</form>';
+          $html .=
+            '<div class="sendgrid_mc_fields" style="' . $input_padding . '">' .
+            '  <div class="sendgrid_mc_label_div">' .
+            '    <label for="sendgrid_mc_email" class="sendgrid_mc_label sendgrid_mc_label_email">' . $email_label . '<sup>*</sup></label>' .
+            '  </div>' .
+            '  <div class="sendgrid_mc_input_div">' .
+            '    <input class="sendgrid_mc_input sendgrid_mc_input_email" id="sendgrid_mc_email" name="sendgrid_mc_email" type="text" value="" required/>' .
+            '  </div>' .
+            '</div>' .
+            '<div class="sendgrid_mc_button_div">' .
+            '  <input style="' . $button_padding . '" class="sendgrid_mc_button" type="submit" id="sendgrid_mc_email_submit" value="' . $subscribe_label . '" />' .
+            '</div>' .
+            '</form>';
       }
       echo apply_filters('mc_subscription_form_html', $html);
     }
