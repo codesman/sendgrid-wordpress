@@ -275,10 +275,10 @@ class SendGrid_NLVX_Widget extends WP_Widget {
 
       $require_fname_lname = '';
 
-      $clean_html = true; // Temporary var until we add the option in admin.
+      $output_clean_html = true; // Temporary var until we add the option in admin.
 
         $html = '';
-        if ($clean_html){
+        if ($output_clean_html){
             $html .= '<form method="post" class="mc_email_form" action="#sendgrid_mc_email_subscribe">';
         } else {
             $html .= '<form method="post" id="sendgrid_mc_email_form" class="mc_email_form" action="#sendgrid_mc_email_subscribe" style="padding-top: 10px;">';
@@ -295,15 +295,9 @@ class SendGrid_NLVX_Widget extends WP_Widget {
 
         if ($clean_html) {
             $html .= '<fieldset>'
-                . '  <label for="sendgrid_mc_first_name" class="sendgrid_mc_label sendgrid_mc_label_first_name">' . $first_name_label . ' : </label>'
-                . '</fieldset>'
-                . '<fieldset>'
+                . '  <label for="sendgrid_mc_first_name">' . $first_name_label . ' : </label>'
                 . '  <input name="sendgrid_mc_first_name" type="text" value="' . $require_fname_lname . '" />'
-                . '</fieldset>'
-                . '<fieldset>'
                 . '  <label for="sendgrid_mc_last_name">' . $last_name_label . ' : </label>'
-                . '</fieldset>'
-                . '<fieldset>'
                 . '  <input name="sendgrid_mc_last_name" type="text" value="" ' . $require_fname_lname . '/>'
                 . '</fieldset>';
 
@@ -328,12 +322,10 @@ class SendGrid_NLVX_Widget extends WP_Widget {
 
       }
 
-      if ($clean_html) {
+      if ($output_clean_html) {
         $html .= '<fieldset>'
         . '  <label for="sendgrid_mc_email">' . $email_label . '<sup>*</sup> :</label>'
-        . '</fieldset>'
-        . '<fieldset>'
-        . '    <input name="sendgrid_mc_email" type="text" value="" required/>'
+        . '  <input name="sendgrid_mc_email" type="text" value="" required/>'
         . '</fieldset>'
         . '<fieldset>'
         . '  <input type="submit" value="' . $subscribe_label . '" />'
